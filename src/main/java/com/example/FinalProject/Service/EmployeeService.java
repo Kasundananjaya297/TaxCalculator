@@ -8,16 +8,20 @@ import com.example.FinalProject.Repo.EmployeeRepo;
 import com.example.FinalProject.utility.IDGenerator;
 import com.example.FinalProject.utility.handlerVal;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.DynamicInsert;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Transactional
 @DynamicInsert
 @Service
+
 public class EmployeeService {
     @Autowired
     private EmployeeRepo employeeRepo;
@@ -68,6 +72,30 @@ public class EmployeeService {
             return responseDTO;
         }
     }
+    public ResponseDTO getEmployeeByName(String name) {
+        try {
+           List <Employee> employee = employeeRepo.findByEmpName(name);
+            if (employee != null) {
+                responseDTO.setData(employee);
+                responseDTO.setResponseMessage("Success!!");
+                responseDTO.setResponseCode(handlerVal.RSP_SUCCES);
+            } else {
+                responseDTO.setData(null);
+                responseDTO.setResponseMessage("Employee not found");
+                responseDTO.setResponseCode(handlerVal.RSP_NO_DATA_FOUND);
+            }
+
+            return responseDTO;
+        } catch (Exception e) {
+            responseDTO.setData(null);
+            responseDTO.setResponseMessage("Internal Server Error");
+            responseDTO.setResponseCode(handlerVal.RSP_FAIL);
+            return responseDTO;
+        }
+    }
 
 
 }
+
+
+

@@ -23,23 +23,32 @@ public class LoginService {
     private ResponseDTO responseDTO = new ResponseDTO();
 
     public ResponseDTO validUser(String userName, String Password){
-        if(loginRepo.existsById(userName) && loginRepo.findById(userName).get().getPassword().equals(Password)){
-            responseDTO.setResponseCode(handlerVal.RSP_SUCCES);
-            responseDTO.setResponseMessage("Valid User");
-            responseDTO.setData(true);
-            return responseDTO;
-        }
-        else{
+        if(loginRepo.existsById(userName)) {
+            String StoredPassword  = loginRepo.findById(userName).get().getPassword();
+            if (loginRepo.existsById(userName) && passwordEncoder.matches(Password, StoredPassword)) {
+                responseDTO.setResponseCode(handlerVal.RSP_SUCCES);
+                responseDTO.setResponseMessage("Valid User");
+                responseDTO.setData(true);
+                return responseDTO;
+            } else {
+                responseDTO.setResponseCode(handlerVal.RSP_FAIL);
+                responseDTO.setResponseMessage("Invalid User");
+                responseDTO.setData(false);
+                return responseDTO;
+            }
+        } else {
             responseDTO.setResponseCode(handlerVal.RSP_FAIL);
             responseDTO.setResponseMessage("Invalid User");
             responseDTO.setData(false);
             return responseDTO;
         }
+
     }
 
     public ResponseDTO changePassword(String userName, String currentPassword, String newPassword) {
         String StoredPassword = loginRepo.findById(userName).get().getPassword();
         if(loginRepo.existsById(userName) && passwordEncoder.matches(currentPassword, StoredPassword)){
+       // if(loginRepo.existsById(userName) && StoredPassword.equals(currentPassword)){
             responseDTO.setResponseCode(handlerVal.RSP_SUCCES);
             newPassword = passwordEncoder.encode(newPassword);
             loginRepo.changePassword(userName, newPassword);

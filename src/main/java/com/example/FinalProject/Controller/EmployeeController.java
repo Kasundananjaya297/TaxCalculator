@@ -26,5 +26,10 @@ public class EmployeeController {
         ResponseDTO Response = employeeService.getAllEmployees();
         return new ResponseEntity(Response, HttpStatus.ACCEPTED);
     }
+    @GetMapping(value = "/getEmployeeByName/{name}")
+    public ResponseEntity getEmployeeByName(@PathVariable("name") String name){
+        ResponseDTO responseDTO = employeeService.getEmployeeByName(name);
+        return new ResponseEntity(responseDTO,HttpStatus.ACCEPTED);
+    }
 
 }

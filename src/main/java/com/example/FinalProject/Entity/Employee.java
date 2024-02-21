@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Employee {
-    @Id()
+    @Id
     @Column(length = 10, nullable = false, unique = true)
     private String empID;
     @Column(length = 30)
