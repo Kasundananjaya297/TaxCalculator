@@ -17,4 +17,5 @@ public interface EmployeeRepo extends JpaRepository<Employee, String> {
 
     @Query(value = "SELECT * FROM Employee WHERE emp_name LIKE CONCAT('%', :name, '%')", nativeQuery = true)
     List<Employee> findByEmpName(@Param("name") String name);
+
 }

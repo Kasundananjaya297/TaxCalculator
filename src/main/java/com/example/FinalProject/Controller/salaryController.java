@@ -19,9 +19,18 @@ public class salaryController {
     private salaryCalculateService salaryCalculatorService;
     @PostMapping("/salary")
     public ResponseEntity claculateTakeHomeSal(@RequestBody salCalculateEmployee sal){
-
         ResponseDTO response = salaryCalculatorService.saveSalaryDetails(sal.getGrossSalary(),sal.getMonth(),sal.getEmpID());
         return new ResponseEntity(response, HttpStatus.ACCEPTED);
+    }
+    @GetMapping("/getSalaryofAllemp")
+    public ResponseEntity getSalaryofAllEmp(){
+        ResponseDTO response = salaryCalculatorService.getSalaryDetails();
+        return new ResponseEntity(response,HttpStatus.ACCEPTED);
+    }
+    @GetMapping("/getSalaryofEmp/{id}")
+    public ResponseEntity getSalaryofEmp(@PathVariable("id") String id){
+        ResponseDTO response = salaryCalculatorService.getSalaryDetailsOfEmp(id);
+        return new ResponseEntity(response,HttpStatus.ACCEPTED);
     }
 
 }

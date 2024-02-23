@@ -72,9 +72,25 @@ public class salaryCalculateService {
          responseDTO.setData(null);
          return responseDTO;
       }
-
-
    }
+   public ResponseDTO getSalaryDetails(){
+   responseDTO.setResponseCode(handlerVal.RSP_SUCCES);
+   responseDTO.setResponseMessage("Succeed!!");
+   responseDTO.setData(salaryRepo.findAll());
+   return responseDTO;}
 
+   public ResponseDTO getSalaryDetailsOfEmp(String empID){
+      if(employeeRepo.existsById(empID)){
+         responseDTO.setResponseCode(handlerVal.RSP_SUCCES);
+         responseDTO.setResponseMessage("Succeed!!");
+         responseDTO.setData(salaryRepo.findByEmpID(empID));
+         return responseDTO;
+      }else{
+         responseDTO.setResponseCode(handlerVal.RSP_NO_DATA_FOUND);
+         responseDTO.setResponseMessage("No Employee Founded");
+         responseDTO.setData(null);
+         return responseDTO;
+      }
+   }
 
 }

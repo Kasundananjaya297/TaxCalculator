@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.parameters.P;
 
+import java.util.List;
+
 public interface salaryRepo extends JpaRepository<SalarayProcess,String> {
 
     @Modifying
@@ -16,4 +18,6 @@ public interface salaryRepo extends JpaRepository<SalarayProcess,String> {
 
     @Query(value = "SELECT COUNT(*) FROM salary_process WHERE Month = :month AND f_empID =:f_empID",nativeQuery = true)
     int existsAllByMonthAndId(@Param("month") String month,@Param("f_empID") String f_empID);
+    @Query(value = "SELECT * FROM salary_process WHERE f_empid = (:id)", nativeQuery = true)
+    List<SalarayProcess> findByEmpID(@Param("id") String id);
 }
